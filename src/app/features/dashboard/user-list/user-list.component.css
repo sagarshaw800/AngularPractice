@@ -1,0 +1,24 @@
+.icon-button {
+  width: 36px;
+  height: 36px;
+  padding: 4px;
+  padding-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+mat-icon {
+  font-size: 18px;
+}
+.icon-button-group {
+  display: flex;
+  gap: 8px; /* Adjust spacing between buttons */
+  align-items: center;
+}
+
+.loading {
+  text-align: center;
+  font-size: 1.5rem;
+  color: #3f51b5; /* Material indigo */
+  margin: 20px 0;
+}

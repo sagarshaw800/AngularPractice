@@ -1,0 +1,5 @@
+<app-login *ngIf="!isLoggedIn" (loginSuccess)="onLoginSuccess()"></app-login>
+<div *ngIf="isLoggedIn">
+  <h3 class="table-title">Employee Data</h3>
+  <app-user-list></app-user-list>
+</div>
