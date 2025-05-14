@@ -13,6 +13,7 @@ export interface User {
   dob: Date;
   position: string;
   joiningDate: Date;
+  isEditing: boolean;
 }
 
 @Component({
@@ -22,11 +23,19 @@ export interface User {
   styleUrl: './user-list.component.css',
 })
 export class UserListComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'name', 'email', 'salary', 'position', 'actions'];
+  displayedColumns: string[] = [
+    'id',
+    'name',
+    'email',
+    'salary',
+    'position',
+    'actions',
+  ];
   dataSource = new MatTableDataSource<any>();
   users: User[] = [];
   loading = true;
-  isEditing = true;
+  isEditing = false;
+  originalValues: { [id: string]: User } = {};
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -41,11 +50,48 @@ export class UserListComponent implements OnInit {
         email: user.email,
         salary: user.salary,
         position: user.position,
+        isEditing: user.isEditing,
       }));
       this.dataSource.data = users;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.loading = false;
     });
+  }
+
+  onEdit(user: User) {
+    this.originalValues[user.id] = { ...user };
+    this.dataSource.data = this.dataSource.data.map((u) =>
+      u.id === user.id ? { ...u, isEditing: true } : u
+    );
+  }
+
+  onSave(user: User) {
+    const updatedData: Partial<User> = {
+      name: user.name,
+      email: user.email,
+      salary: user.salary,
+      position: user.position,
+    };
+
+    this.userService.updateUser(user.id, updatedData).subscribe({
+      next: () => {
+        user.isEditing = false;
+        delete this.originalValues[user.id];
+      },
+      error: (err) => {
+        // console.error('Update failed', err);
+      }
+    });
+  }
+
+  onCancel(user: User) {
+    const original = this.originalValues[user.id];
+    if (original) {
+      this.dataSource.data = this.dataSource.data.map((u) =>
+        u.id === user.id ? { ...original } : u
+      );
+      delete this.originalValues[user.id];
+    }
   }
 }

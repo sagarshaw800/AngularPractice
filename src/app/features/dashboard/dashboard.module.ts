@@ -11,16 +11,12 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { LoginComponent } from './login/login.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     DashboardComponent,
     UserListComponent,
-    LoginComponent
   ],
   imports: [
     CommonModule,
@@ -31,9 +27,7 @@ import { MatInputModule } from '@angular/material/input';
     MatSortModule,
     MatIconModule,
     MatButtonModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule
+    FormsModule,
   ],
   exports: [DashboardComponent]
 })

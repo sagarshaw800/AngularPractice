@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -8,7 +9,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  @Output() loginSuccess = new EventEmitter<void>();
+
+  constructor(private router: Router) {}
 
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -17,7 +19,7 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      this.loginSuccess.emit();
+      this.router.navigate(['/dashboard']);
     }
   }
 }

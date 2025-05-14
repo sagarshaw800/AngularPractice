@@ -1,55 +1,85 @@
 <div *ngIf="loading" class="loading">Loading users...</div>
-  <table mat-table [dataSource]="dataSource" matSort>
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef>ID</th>
-      <td mat-cell *matCellDef="let user">{{ user.id }}</td>
-    </ng-container>
+<table mat-table [dataSource]="dataSource" matSort>
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef>ID</th>
+    <td mat-cell *matCellDef="let user">{{ user.id }}</td>
+  </ng-container>
 
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-      <td mat-cell *matCellDef="let user">{{ user.name }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="email">
-      <th mat-header-cell *matHeaderCellDef>Email</th>
-      <td mat-cell *matCellDef="let user">{{ user.email }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="salary">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Salary ($/week)</th>
-      <td mat-cell *matCellDef="let user">{{ user.salary }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="position">
-      <th mat-header-cell *matHeaderCellDef>Position</th>
-      <td mat-cell *matCellDef="let user">{{ user.position }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef>Actions</th>
-      <td mat-cell *matCellDef="let user">
-        <ng-container *ngIf="isEditing; else editMode">
-          <div class="icon-button-group">
-            <button mat-icon-button color="primary" class="icon-button">
-              <mat-icon>check</mat-icon>
-            </button>
-            <button mat-icon-button color="warn" class="icon-button">
-              <mat-icon>close</mat-icon>
-            </button>
-          </div>
-        </ng-container>
-        <ng-template #editMode>
-          <button mat-icon-button class="icon-button">
-            <mat-icon>edit</mat-icon>
-          </button>
-        </ng-template>
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+    <ng-container *matCellDef="let user">
+      <td mat-cell *ngIf="!user.isEditing">{{ user.name }}</td>
+      <td mat-cell *ngIf="user.isEditing">
+        <input [(ngModel)]="user.name" />
       </td>
     </ng-container>
+  </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
-  <mat-paginator
-    [pageSizeOptions]="[5, 10, 20]"
-    showFirstLastButtons
-  ></mat-paginator>
+  <ng-container matColumnDef="email">
+    <th mat-header-cell *matHeaderCellDef>Email</th>
+    <ng-container *matCellDef="let user">
+      <td mat-cell *ngIf="!user.isEditing">{{ user.email }}</td>
+      <td mat-cell *ngIf="user.isEditing">
+        <input [(ngModel)]="user.email" />
+      </td>
+    </ng-container>
+  </ng-container>
+
+  <ng-container matColumnDef="salary">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Salary ($/week)</th>
+    <ng-container *matCellDef="let user">
+      <td mat-cell *ngIf="!user.isEditing">{{ user.salary }}</td>
+      <td mat-cell *ngIf="user.isEditing">
+        <input type="number" [(ngModel)]="user.salary" />
+      </td>
+    </ng-container>
+  </ng-container>
+
+  <ng-container matColumnDef="position">
+    <th mat-header-cell *matHeaderCellDef>Position</th>
+    <ng-container *matCellDef="let user">
+      <td mat-cell *ngIf="!user.isEditing">{{ user.position }}</td>
+      <td mat-cell *ngIf="user.isEditing">
+        <input [(ngModel)]="user.position" />
+      </td>
+    </ng-container>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Actions</th>
+    <td mat-cell *matCellDef="let user">
+      <ng-container *ngIf="user.isEditing; else editMode">
+        <div class="icon-button-group">
+          <button
+            mat-icon-button
+            color="primary"
+            class="icon-button"
+            (click)="onSave(user)"
+          >
+            <mat-icon>check</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            color="warn"
+            class="icon-button"
+            (click)="onCancel(user)"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </ng-container>
+      <ng-template #editMode>
+        <button mat-icon-button class="icon-button" (click)="onEdit(user)">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </ng-template>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
+<mat-paginator
+  [pageSizeOptions]="[5, 10, 20]"
+  showFirstLastButtons
+></mat-paginator>

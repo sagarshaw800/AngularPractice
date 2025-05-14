@@ -7,10 +7,4 @@ import { Component } from '@angular/core';
   styleUrl: './dashboard.component.css',
 })
 export class DashboardComponent {
-  isLoggedIn = false;
-
-  onLoginSuccess() {
-    // console.log("login success recieved.")
-    this.isLoggedIn = true;
-  }
 }

@@ -13,6 +13,7 @@ export interface User {
   dob: Date;
   position: string;
   joiningDate: Date;
+  isEditing: boolean;
 }
 
 @Injectable({
@@ -36,8 +37,17 @@ export class UserService {
           dob: new Date(user.dob),
           position: user.position,
           joiningDate: new Date(user.joiningDate),
+          isEditing: user.isEditing,
         }))
       )
     );
+  }
+
+  updateUser(id: string, updatedUser: Partial<User>): Observable<any> {
+    return this.http.put(`${environment.apiBaseUrl}/Users/${id}`, updatedUser);
+  }
+
+  deleteUser(id: string): Observable<any> {
+    return this.http.delete(`${environment.apiBaseUrl}/Users/${id}`);
   }
 }
