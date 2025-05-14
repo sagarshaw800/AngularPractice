@@ -3,6 +3,7 @@ import { UserService } from '../../../shared/user.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { NotificationService } from '../../../shared/notification.service';
 
 export interface User {
   id: string;
@@ -32,7 +33,7 @@ export class UserListComponent implements OnInit {
     'actions',
   ];
   dataSource = new MatTableDataSource<any>();
-  users: User[] = [];
+  // users: User[] = [];
   loading = true;
   isEditing = false;
   originalValues: { [id: string]: User } = {};
@@ -40,7 +41,10 @@ export class UserListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private notificationService: NotificationService
+  ) {}
 
   ngOnInit(): void {
     this.userService.fetchUsers().subscribe((res: any) => {
@@ -78,10 +82,11 @@ export class UserListComponent implements OnInit {
       next: () => {
         user.isEditing = false;
         delete this.originalValues[user.id];
+        this.notificationService.showSuccess("User successfully updated 😊")
       },
       error: (err) => {
-        // console.error('Update failed', err);
-      }
+        this.notificationService.showError("Something went wrong ! 😔")
+      },
     });
   }
 
@@ -92,6 +97,7 @@ export class UserListComponent implements OnInit {
         u.id === user.id ? { ...original } : u
       );
       delete this.originalValues[user.id];
+      this.notificationService.showSuccess("User data reset successfull!")
     }
   }
 }
