@@ -82,10 +82,10 @@ export class UserListComponent implements OnInit {
       next: () => {
         user.isEditing = false;
         delete this.originalValues[user.id];
-        this.notificationService.showSuccess("User successfully updated 😊")
+        this.notificationService.showSuccess('User successfully updated 😊');
       },
       error: (err) => {
-        this.notificationService.showError("Something went wrong ! 😔")
+        this.notificationService.showError('Something went wrong ! 😔');
       },
     });
   }
@@ -97,7 +97,22 @@ export class UserListComponent implements OnInit {
         u.id === user.id ? { ...original } : u
       );
       delete this.originalValues[user.id];
-      this.notificationService.showSuccess("User data reset successfull!")
+      this.notificationService.showSuccess('User data reset successfull!');
     }
+  }
+
+  onDelete(user: User) {
+    this.userService.deleteUser(user.id).subscribe({
+      next: () => {
+        this.dataSource.data = this.dataSource.data.filter(
+          (u) => u.id !== user.id
+        );
+        this.notificationService.showSuccess('User successfully deleted 🗑️');
+      },
+      error: (err) => {
+        console.error('Delete failed', err);
+        this.notificationService.showError('Failed to delete the user 😔');
+      },
+    });
   }
 }

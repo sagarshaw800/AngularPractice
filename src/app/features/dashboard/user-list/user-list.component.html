@@ -69,9 +69,14 @@
         </div>
       </ng-container>
       <ng-template #editMode>
-        <button mat-icon-button class="icon-button" (click)="onEdit(user)">
-          <mat-icon>edit</mat-icon>
-        </button>
+        <div class="icon-button-group">
+          <button mat-icon-button class="icon-button" color="accent" (click)="onEdit(user)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button class="icon-button" color="warn" (click)="onDelete(user)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
       </ng-template>
     </td>
   </ng-container>
