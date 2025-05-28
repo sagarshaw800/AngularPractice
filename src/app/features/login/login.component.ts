@@ -27,9 +27,10 @@ export class LoginComponent {
     return this.loginForm.get('password');
   }
   onSubmit() {
-    console.log(this.loginForm.get('password'))
+    // console.log(this.loginForm.get('password'))
     if (this.loginForm.valid) {
-      this.router.navigate(['/dashboard']);
+      localStorage.setItem('isLoggedIn', 'true');
+      this.router.navigate(['/']);
     }
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';  // Add AfterViewInit
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';  
 import { StaticUserService, User } from '../../../shared/static-user.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -11,7 +11,7 @@ import { NotificationService } from '../../../shared/notification.service';
   templateUrl: './static-user-list.component.html',
   styleUrls: ['./static-user-list.component.css'],
 })
-export class StaticUserListComponent implements OnInit, AfterViewInit {  // Add AfterViewInit here
+export class StaticUserListComponent implements OnInit, AfterViewInit {  
   displayedColumns: string[] = ['id', 'name', 'email', 'salary', 'position', 'actions'];
   dataSource = new MatTableDataSource<User>();
   loading = true;
@@ -36,7 +36,6 @@ export class StaticUserListComponent implements OnInit, AfterViewInit {  // Add 
   }
 
   ngAfterViewInit() {
-    // Delay to ensure paginator and sort are initialized before assigning
     setTimeout(() => {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
