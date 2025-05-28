@@ -1,4 +1,7 @@
 <div *ngIf="loading" class="loading">Loading users...</div>
+<div class="hightest-salary">
+  Highest Salary: ₹{{ highestSalary }}
+</div>
 <table mat-table [dataSource]="dataSource" matSort>
   <ng-container matColumnDef="id">
     <th mat-header-cell *matHeaderCellDef>ID</th>

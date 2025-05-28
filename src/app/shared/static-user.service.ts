@@ -22,6 +22,20 @@ export class StaticUserService {
   private userDetailsSubject = new BehaviorSubject<User[]>(this.users);
   userDetails$ = this.userDetailsSubject.asObservable();
 
+  private highestSalarySubject = new BehaviorSubject<number>(0);
+  highestSalary$ = this.highestSalarySubject.asObservable();
+
+  constructor() {
+    this.updateHighestSalary(); 
+  }
+
+  private updateHighestSalary(): void {
+    const maxSalary =
+      this.users.length > 0 ? Math.max(...this.users.map((u) => u.salary)) : 0;
+      // console.log(maxSalary)
+    this.highestSalarySubject.next(maxSalary);
+  }
+
   fetchUsers(): Observable<User[]> {
     return of(this.users);
   }
@@ -32,12 +46,14 @@ export class StaticUserService {
       this.users[index] = { ...this.users[index], ...updatedUser };
       this.userDetailsSubject.next([...this.users]);
     }
+    this.updateHighestSalary()
     return of({ success: true });
   }
 
   deleteUser(id: string): Observable<any> {
     this.users = this.users.filter((user) => user.id !== id);
     this.userDetailsSubject.next([...this.users]);
+    this.updateHighestSalary()
     return of({ success: true });
   }
 }
